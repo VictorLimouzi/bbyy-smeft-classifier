@@ -2,7 +2,7 @@
 
 Repository for my **Senior Honours** project.
 
-**Victor Limouzi** · March 2026 · Advisor: Dominik
+**Victor Limouzi** · March 2026 · Advisor: Dominik Duda
 
 ---
 
