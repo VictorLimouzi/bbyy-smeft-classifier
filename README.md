@@ -12,7 +12,7 @@ Simulated HL-LHC–style events in the $b\bar{b}\gamma\gamma$ final state are us
 
 ---
 
-## Physics (short)
+## Physics
 
 The study is cast in **SMEFT** with CP-violating dimension-6 effects turned on **one operator at a time**. Each BSM sample is labelled by a short tag used in filenames and models:
 
