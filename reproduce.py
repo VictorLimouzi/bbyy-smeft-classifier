@@ -4,8 +4,8 @@ Single entry point for regenerating plots, figures, and metrics.
 
 Run from the project root:
 
-  python reproduce.py eda              # exploratory plots → plots/
-  python reproduce.py figures          # publication figures → figures/ (+ stratified sampling panels)
+  python reproduce.py eda              # exploratory figures → figures/exploratory/
+  python reproduce.py figures          # publication figures → figures/publication/ (+ stratified panels)
   python reproduce.py figures --no-stratified
   python reproduce.py metrics comparison
   python reproduce.py metrics nn-importance
@@ -39,9 +39,9 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Regenerate project outputs (run from repo root).")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("eda", help="EDA plots → plots/")
+    sub.add_parser("eda", help="EDA figures → figures/exploratory/")
 
-    p_fig = sub.add_parser("figures", help="Publication figures → figures/")
+    p_fig = sub.add_parser("figures", help="Publication figures → figures/publication/")
     p_fig.add_argument(
         "--no-stratified",
         action="store_true",
@@ -59,8 +59,8 @@ def main() -> None:
     p_met.add_argument("--top-k", type=int, default=3, help="For top-overlap only.")
     p_met.add_argument("--bins", type=int, default=50, help="For top-overlap only.")
 
-    sub.add_parser("architecture", help="Architecture diagrams → figures/")
-    sub.add_parser("graph", help="GNN graph schematic → figures/")
+    sub.add_parser("architecture", help="Architecture diagrams → figures/publication/")
+    sub.add_parser("graph", help="GNN graph schematic → figures/publication/")
     sub.add_parser("clean-notebooks", help="Strip notebook outputs for submission.")
 
     p_all = sub.add_parser("all", help="Run eda, figures, and metrics all (heavy).")

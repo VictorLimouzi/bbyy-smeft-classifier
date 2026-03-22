@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate publication-ready figures for the write-up (outputs under figures/).
+Generate publication-ready figures for the write-up (outputs under figures/publication/).
 
 Prefer running from the repo root: ``python reproduce.py figures``
 (omit stratified panels with ``reproduce.py figures --no-stratified``).
@@ -38,7 +38,7 @@ try:
 except ImportError:
     HAS_TORCH_GEOMETRIC = False
 
-os.makedirs('figures', exist_ok=True)
+os.makedirs('figures/publication', exist_ok=True)
 
 # -----------------------------------------------------------------------------
 # Load data and models
@@ -231,9 +231,9 @@ for bsm_name in bsm_names:
                          ha='center', va='center',
                          color='white' if cm_frac[i, j] > 0.5 else 'black', fontsize=12)
     plt.tight_layout()
-    plt.savefig(f'figures/nn_roc_confusion_{bsm_name}.png', dpi=200, bbox_inches='tight')
+    plt.savefig(f'figures/publication/nn_roc_confusion_{bsm_name}.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print(f"  Saved figures/nn_roc_confusion_{bsm_name}.png")
+    print(f"  Saved figures/publication/nn_roc_confusion_{bsm_name}.png")
     # Confusion matrix only — nn_confusion_{operator}.png
     fig, ax = plt.subplots(figsize=(6, 5))
     im = ax.imshow(cm_frac, interpolation='nearest', cmap='Blues', vmin=0, vmax=1)
@@ -248,9 +248,9 @@ for bsm_name in bsm_names:
                     ha='center', va='center',
                     color='white' if cm_frac[i, j] > 0.5 else 'black', fontsize=12)
     plt.tight_layout()
-    plt.savefig(f'figures/nn_confusion_{bsm_name}.png', dpi=200, bbox_inches='tight')
+    plt.savefig(f'figures/publication/nn_confusion_{bsm_name}.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print(f"  Saved figures/nn_confusion_{bsm_name}.png")
+    print(f"  Saved figures/publication/nn_confusion_{bsm_name}.png")
 
 # -----------------------------------------------------------------------------
 # 1b. NN learned distribution (P(BSM)) per operator — nn_score_{operator}.png
@@ -268,9 +268,9 @@ for bsm_name in bsm_names:
     ax.grid(True, alpha=0.3)
     ax.set_xlim(0, 1)
     plt.tight_layout()
-    plt.savefig(f'figures/nn_score_{bsm_name}.png', dpi=200, bbox_inches='tight')
+    plt.savefig(f'figures/publication/nn_score_{bsm_name}.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print(f"  Saved figures/nn_score_{bsm_name}.png")
+    print(f"  Saved figures/publication/nn_score_{bsm_name}.png")
 
 # -----------------------------------------------------------------------------
 # 1c. DNN top 10 feature importance (one PNG per operator)
@@ -299,9 +299,9 @@ if os.path.exists('metrics/nn_feature_importance.csv'):
         ax.axvline(x=0, color='gray', linestyle='-', linewidth=0.5)
         ax.grid(axis='x', alpha=0.3)
         plt.tight_layout()
-        plt.savefig(f'figures/nn_feature_importance_top10_{op}.png', dpi=200, bbox_inches='tight')
+        plt.savefig(f'figures/publication/nn_feature_importance_top10_{op}.png', dpi=200, bbox_inches='tight')
         plt.close()
-        print(f"  Saved figures/nn_feature_importance_top10_{op}.png")
+        print(f"  Saved figures/publication/nn_feature_importance_top10_{op}.png")
 
 # -----------------------------------------------------------------------------
 # 2b. NN training curves for cbgim
@@ -373,9 +373,9 @@ axes[1].legend()
 axes[1].grid(True, alpha=0.3)
 plt.suptitle('DNN Training Curves', fontsize=14, fontweight='bold', y=1.02)
 plt.tight_layout()
-plt.savefig('figures/nn_training_curves_cbgim.png', dpi=200, bbox_inches='tight')
+plt.savefig('figures/publication/nn_training_curves_cbgim.png', dpi=200, bbox_inches='tight')
 plt.close()
-print("  Saved figures/nn_training_curves_cbgim.png")
+print("  Saved figures/publication/nn_training_curves_cbgim.png")
 
 # -----------------------------------------------------------------------------
 # 3. Model comparison (DNN vs GCN vs GAT across operators) — AUC plot
@@ -430,9 +430,9 @@ if df is not None:
     ax.set_ylim(0.4, 1.0)
     ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
-    plt.savefig('figures/auc_dnn_gcn_gat.png', dpi=200, bbox_inches='tight')
+    plt.savefig('figures/publication/auc_dnn_gcn_gat.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print("  Saved figures/auc_dnn_gcn_gat.png")
+    print("  Saved figures/publication/auc_dnn_gcn_gat.png")
     # Full comparison (AUC + training time)
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     for i, arch in enumerate(['DNN', 'GCN', 'GAT']):
@@ -468,9 +468,9 @@ if df is not None:
     axes[1].legend(fontsize=10)
     axes[1].grid(axis='y', alpha=0.3)
     plt.tight_layout()
-    plt.savefig('figures/model_comparison.png', dpi=200, bbox_inches='tight')
+    plt.savefig('figures/publication/model_comparison.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print("  Saved figures/model_comparison.png")
+    print("  Saved figures/publication/model_comparison.png")
 else:
     print("Skipping model comparison (no metrics found)")
 
@@ -614,9 +614,9 @@ for bsm_name in bsm_names:
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     plt.tight_layout()
-    plt.savefig(f'figures/roc_dnn_gcn_gat_{bsm_name}.png', dpi=200, bbox_inches='tight')
+    plt.savefig(f'figures/publication/roc_dnn_gcn_gat_{bsm_name}.png', dpi=200, bbox_inches='tight')
     plt.close()
-    print(f"  Saved figures/roc_dnn_gcn_gat_{bsm_name}.png")
+    print(f"  Saved figures/publication/roc_dnn_gcn_gat_{bsm_name}.png")
 
 # Combined figure: all datasets in one plot (6 subplots)
 print("Generating combined ROC figure (all datasets)...")
@@ -641,11 +641,11 @@ for idx, bsm_name in enumerate(bsm_names):
     ax.set_ylim(0, 1)
 plt.suptitle('ROC Curves: DNN vs GCN vs GAT per BSM Operator', fontsize=14, fontweight='bold', y=1.02)
 plt.tight_layout()
-plt.savefig('figures/roc_all_datasets_combined.png', dpi=200, bbox_inches='tight')
+plt.savefig('figures/publication/roc_all_datasets_combined.png', dpi=200, bbox_inches='tight')
 plt.close()
-print("  Saved figures/roc_all_datasets_combined.png")
+print("  Saved figures/publication/roc_all_datasets_combined.png")
 
 if not HAS_TORCH_GEOMETRIC:
     print("  (GCN/GAT skipped — install torch-geometric for full comparison)")
 
-print("\nAll figures generated in figures/")
+print("\nAll figures generated in figures/publication/")

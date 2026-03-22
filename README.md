@@ -40,14 +40,14 @@ From the repository root, `python3 reproduce.py --help` lists all subcommands. T
 
 | Command | What it does |
 |---------|----------------|
-| `eda` | Exploratory plots → `plots/` |
-| `figures` | Publication-style figures → `figures/` (after `figures`, also runs stratified-sampling figures unless you pass `--no-stratified`) |
+| `eda` | Exploratory figures → `figures/exploratory/` |
+| `figures` | Publication-style figures → `figures/publication/` (then stratified panels there too, unless `--no-stratified`) |
 | `metrics comparison` | Evaluates saved checkpoints; writes `metrics/all_models_comparison.csv` |
 | `metrics nn-importance` | Permutation importance → `metrics/nn_feature_importance.csv` |
 | `metrics top-overlap` | Top observables by histogram overlap → `metrics/top_observables_overlap_separation.csv` (optional: `--top-k`, `--bins`) |
 | `metrics all` | Runs the three metrics steps above in order |
-| `architecture` | DNN/GCN/GAT torchviz diagrams → `figures/` |
-| `graph` | GNN input graph schematic → `figures/` |
+| `architecture` | DNN/GCN/GAT torchviz diagrams → `figures/publication/` |
+| `graph` | GNN input graph schematic → `figures/publication/` |
 | `clean-notebooks` | Clears outputs and execution counts in all numbered notebooks (optional before submission) |
 | `all` | `eda` + `figures` + `metrics all` (slow; needs `models/` and datasets) |
 
@@ -65,14 +65,16 @@ python3 reproduce.py all                         # full regeneration pipeline
 
 Scripts live in `scripts/` and can be run directly; each script changes to the project root first, e.g. `python3 scripts/eda_plots.py`.
 
+**Figure layout:** PNG/PDF outputs all sit under **`figures/`** with two subfolders: **`exploratory/`** (EDA + notebook training / comparison plots) and **`publication/`** (scripted thesis-style figures: ROC grids, stratified undersampling panels, architecture and graph schematics).
+
 ### Run Notebooks (in order)
 | Order | Notebook | Output |
 |-------|----------|--------|
-| 1 | `01_eda_hh_bbyy.ipynb` | EDA plots → `plots/` |
-| 2 | `02_event_type_composition.ipynb` | Event type plots → `plots/` |
+| 1 | `01_eda_hh_bbyy.ipynb` | EDA → `figures/exploratory/` |
+| 2 | `02_event_type_composition.ipynb` | Event-type plots → `figures/exploratory/` |
 | 3 | `03_neural_network_classification.ipynb` | NN models → `models/`, metrics → `metrics/` |
 | 4 | `04_graph_neural_network_classification.ipynb` | GCN/GAT models → `models/`, metrics → `metrics/` |
-| 5 | `05_model_comparison.ipynb` | Comparison figures → `figures/` |
+| 5 | `05_model_comparison.ipynb` | Comparison plots → `figures/exploratory/` |
 | 6 | `06_gnn_low_level_extended.ipynb` | Low-level / extended GNN (optional) |
 
 **Dependencies**: **PyTorch Geometric** is required for notebooks **4–6** (and for `reproduce.py metrics comparison` to evaluate GCN/GAT). Notebook **3** (feedforward NN) uses PyTorch only. Checkpoints under `models/` let you run `reproduce.py figures` and `metrics comparison` without retraining the notebooks.
@@ -106,25 +108,25 @@ Event-type and weight columns include `is_HHEvent`, `is_SingleHiggsEvent`, `is_S
 ### 1. Exploratory Data Analysis (EDA)
 **Notebook**: `01_eda_hh_bbyy.ipynb` | **Script**: `reproduce.py eda` (or `scripts/eda_plots.py`)
 
-Area-normalised histograms, correlation matrices, ratio plots (BSM/SM) with ±10% bands, distribution overlap heatmap, CDFs, angular distributions, invariant mass spectra, pT spectra, profile plots. Outputs → `plots/`.
+Area-normalised histograms, correlation matrices, ratio plots (BSM/SM) with ±10% bands, distribution overlap heatmap, CDFs, angular distributions, invariant mass spectra, pT spectra, profile plots. Outputs → `figures/exploratory/`.
 
 ### 2. Event Type Contribution Analysis
 **Notebook**: `02_event_type_composition.ipynb`
 
-Lumi-weighted contribution of ZH, HH, Single H, Other per dataset. Outputs → `plots/event_type_contribution_*.png`.
+Lumi-weighted contribution of ZH, HH, Single H, Other per dataset. Outputs → `figures/exploratory/event_type_contribution_*.png`.
 
 ### 3. Neural Network Classification
 **Notebook**: `03_neural_network_classification.ipynb`
 
-4-layer MLP (31→128→64→32→1), StandardScaler, random undersampling, stratified 70/10/20 split. The notebook walks through training for a **representative BSM operator (chbtil)**; the same architecture is used for all six operators, with checkpoints named `models/sm_vs_<operator>_classifier.pt`. Outputs → `models/`, `metrics/`, `plots/`, and (via `reproduce.py figures`) `figures/`.
+4-layer MLP (31→128→64→32→1), StandardScaler, random undersampling, stratified 70/10/20 split. The notebook walks through training for a **representative BSM operator (chbtil)**; the same architecture is used for all six operators, with checkpoints named `models/sm_vs_<operator>_classifier.pt`. Outputs → `models/`, `metrics/`, `figures/exploratory/` (notebooks), and `figures/publication/` (via `reproduce.py figures`).
 
 ### 4. Graph Neural Network Classification
 **Notebook**: `04_graph_neural_network_classification.ipynb`
 
-GCN and GAT on 5-node fully connected graphs. Event-type stratified undersampling. Outputs → `models/gcn_*_classifier.pt`, `models/gat_*_classifier.pt`, `metrics/`, `plots/`.
+GCN and GAT on 5-node fully connected graphs. Event-type stratified undersampling. Outputs → `models/gcn_*_classifier.pt`, `models/gat_*_classifier.pt`, `metrics/`, `figures/exploratory/`.
 
 **Low-level GNN (no global observables)** — same idea as the full GNN but **no** 10 global event variables. Use either:
-- **Notebook**: `06_gnn_low_level_extended.ipynb` — **8-node** graph (5 objects + dijet + γγ summary + angular node), **DeepResidualGCN** + **GraphTransformer**; saves `models/gcn_deep_ll_*`, `models/gt_ll_*`, `metrics/gcn_deep_ll_*` / `gt_ll_*` CSVs, `plots/gnn_ll_*.png`. The CLI script `scripts/train_gnn_low_level.py` is still the lighter **5-node** baseline.
+- **Notebook**: `06_gnn_low_level_extended.ipynb` — **8-node** graph (5 objects + dijet + γγ summary + angular node), **DeepResidualGCN** + **GraphTransformer**; saves `models/gcn_deep_ll_*`, `models/gt_ll_*`, `metrics/gcn_deep_ll_*` / `gt_ll_*` CSVs, `figures/exploratory/gnn_ll_*.png`. The CLI script `scripts/train_gnn_low_level.py` is still the lighter **5-node** baseline.
 - **Script**: `scripts/train_gnn_low_level.py` for CLI runs.
 
 Checkpoints: `models/gcn_ll_*_classifier.pt`, `models/gat_ll_*_classifier.pt`, summary `metrics/gnn_low_level_comparison.csv`.
@@ -140,7 +142,7 @@ Optional `--use-2d` targets `ForAnalysis/2d` (16×8 nodes); the script exits wit
 ### 5. Model Comparison
 **Notebook**: `05_model_comparison.ipynb`
 
-Comparison of NN, GCN, GAT across all 6 BSM operators. Outputs → `metrics/`, `figures/`.
+Comparison of NN, GCN, GAT across all 6 BSM operators. Outputs → `metrics/`, `figures/exploratory/` (notebook plots).
 
 ---
 
@@ -149,8 +151,9 @@ Comparison of NN, GCN, GAT across all 6 BSM operators. Outputs → `metrics/`, `
 ```
 seniour_honours_project/
 ├── datasets/           # HDF5 files (7 datasets)
-├── plots/              # EDA and analysis plots
-├── figures/            # Publication figures from scripts
+├── figures/
+│   ├── exploratory/    # EDA + notebook outputs (histograms, training curves, …)
+│   └── publication/    # Scripted thesis-style figures (ROC grids, stratified panels, …)
 ├── models/             # Trained classifiers
 ├── metrics/            # Feature importance, comparison tables
 ├── scripts/            # Plotting, metrics, training utilities (see reproduce.py)
@@ -181,20 +184,21 @@ seniour_honours_project/
 
 | Figure | Path |
 |--------|------|
-| Distribution overlap heatmap | `plots/distribution_overlap_heatmap.png` |
-| Top discriminating observables (distributions) | `plots/top_features_comparison.png` |
-| BSM/SM ratio panel (key observables) | `plots/ratio_panel_key_obs.png` |
-| Event type contribution | `plots/event_type_contribution_stacked.png`, `plots/event_type_contribution_grouped.png` |
-| Stratified vs random undersampling | `figures/stratified_sampling_event_fractions_*.png`, `figures/stratified_sampling_top_features_*.png` |
-| ROC curves (combined) | `figures/roc_all_datasets_combined.png` |
-| ROC curves (per operator, DNN+GCN+GAT) | `figures/roc_dnn_gcn_gat_*.png` |
-| NN ROC + confusion (per operator) | `figures/nn_roc_confusion_*.png`, `figures/nn_confusion_*.png` |
-| NN score distributions | `figures/nn_score_*.png` |
-| NN feature importance | `plots/nn_feature_importance.png`, `figures/nn_feature_importance_top10_*.png` |
-| GNN feature importance | `plots/gnn_feature_importance_gcn.png`, `plots/gnn_feature_importance_gat.png` |
-| Learned distributions (notebooks) | `plots/nn_learned_distribution.png`, `plots/gnn_learned_distribution_*.png` |
-| Model comparison (bars) | `figures/model_comparison.png`, `figures/auc_dnn_gcn_gat.png` |
-| Notebook-only comparison plots | `plots/model_comparison_roc.png`, `plots/model_comparison_auc.png`, `plots/model_comparison_time.png` |
+| Distribution overlap heatmap | `figures/exploratory/distribution_overlap_heatmap.png` |
+| Top discriminating observables (distributions) | `figures/exploratory/top_features_comparison.png` |
+| BSM/SM ratio panel (key observables) | `figures/exploratory/ratio_panel_key_obs.png` |
+| Event type contribution | `figures/exploratory/event_type_contribution_stacked.png`, `figures/exploratory/event_type_contribution_grouped.png` |
+| Stratified vs random undersampling | `figures/publication/stratified_sampling_event_fractions_*.png`, `figures/publication/stratified_sampling_top_features_*.png` |
+| ROC curves (combined) | `figures/publication/roc_all_datasets_combined.png` |
+| ROC curves (per operator, DNN+GCN+GAT) | `figures/publication/roc_dnn_gcn_gat_*.png` |
+| NN ROC + confusion (per operator) | `figures/publication/nn_roc_confusion_*.png`, `figures/publication/nn_confusion_*.png` |
+| NN score distributions | `figures/publication/nn_score_*.png` |
+| NN feature importance | `figures/exploratory/nn_feature_importance.png`, `figures/publication/nn_feature_importance_top10_*.png` |
+| GNN feature importance | `figures/exploratory/gnn_feature_importance_gcn.png`, `figures/exploratory/gnn_feature_importance_gat.png` |
+| Learned distributions (notebooks) | `figures/exploratory/nn_learned_distribution.png`, `figures/exploratory/gnn_learned_distribution_*.png` |
+| Model comparison (bars) | `figures/publication/model_comparison.png`, `figures/publication/auc_dnn_gcn_gat.png` |
+| Notebook-only comparison plots | `figures/exploratory/model_comparison_roc.png`, `figures/exploratory/model_comparison_auc.png`, `figures/exploratory/model_comparison_time.png` |
+| Architecture / graph schematics | `figures/publication/dnn_architecture.*`, `gcn_architecture.*`, `gat_architecture.*`, `gnn_input_graph.*` |
 
 ---
 

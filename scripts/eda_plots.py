@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Exploratory data analysis plots → plots/
+Exploratory data analysis plots → figures/exploratory/
 
 From repo root: ``python reproduce.py eda`` (or run this file directly; it switches to the project root).
 """
@@ -22,7 +22,7 @@ from plot_style import STEP_HIST_KW, apply_publication_style
 
 apply_publication_style()
 
-os.makedirs('plots', exist_ok=True)
+os.makedirs('figures/exploratory', exist_ok=True)
 
 print("Loading datasets...")
 
@@ -154,7 +154,7 @@ def plot_with_ratio_panel(datasets_dict, observables, title_suffix='', save_name
             axes[row + 1, col].set_visible(False)
 
     plt.tight_layout()
-    plt.savefig(f'plots/{save_name}.png', dpi=150, bbox_inches='tight')
+    plt.savefig(f'figures/exploratory/{save_name}.png', dpi=150, bbox_inches='tight')
     plt.close()
 
 
@@ -193,7 +193,7 @@ for idx in range(len(observables), len(axes)):
     axes[idx].set_visible(False)
 
 plt.tight_layout()
-plt.savefig('plots/dataset_comparison_normalized.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/dataset_comparison_normalized.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -216,7 +216,7 @@ for i, (name, df) in enumerate(datasets_corr.items()):
 
 axes[-1].set_visible(False)
 plt.tight_layout()
-plt.savefig('plots/correlation_matrices.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/correlation_matrices.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 for name, df in datasets_corr.items():
@@ -230,7 +230,7 @@ for name, df in datasets_corr.items():
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0, fontsize=9)
     plt.tight_layout()
     safe_name = name.replace(' ', '_').replace('(', '').replace(')', '')
-    plt.savefig(f'plots/correlation_matrix_{safe_name}.png', dpi=150, bbox_inches='tight')
+    plt.savefig(f'figures/exploratory/correlation_matrix_{safe_name}.png', dpi=150, bbox_inches='tight')
     plt.close()
 
 
@@ -264,7 +264,7 @@ for idx in range(len(ALL_NAMES), len(axes)):
     axes[idx].set_visible(False)
 
 plt.tight_layout()
-plt.savefig('plots/signed_DeltaPhi_jj_vs_Eta_jj.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/signed_DeltaPhi_jj_vs_Eta_jj.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -303,7 +303,7 @@ for idx, obs in enumerate(key_observables):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/ratio_plots_bsm_sm.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/ratio_plots_bsm_sm.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -335,7 +335,7 @@ for row_idx, name in enumerate(ALL_NAMES):
         ax.legend(fontsize=7)
 
 plt.tight_layout()
-plt.savefig('plots/signal_vs_background.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/signal_vs_background.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -369,7 +369,7 @@ for idx, obs in enumerate(key_observables):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/weighted_distributions.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/weighted_distributions.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -396,7 +396,7 @@ for idx, obs in enumerate(key_observables):
     ax.set_ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('plots/cdf_comparison.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/cdf_comparison.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -435,7 +435,7 @@ for idx, obs in enumerate(angular_obs):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/angular_distributions.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/angular_distributions.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -470,7 +470,7 @@ for ax, obs in zip(axes, mass_obs):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/invariant_mass_spectra.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/invariant_mass_spectra.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -506,7 +506,7 @@ for idx, obs in enumerate(pt_obs):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/pt_spectra_log.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/pt_spectra_log.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -553,7 +553,7 @@ for ax, (x_var, y_var, xlabel, ylabel) in zip(axes, profile_configs):
     ax.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/profile_plots.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/profile_plots.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -607,7 +607,7 @@ ax.set_ylabel('Observable', fontsize=12)
 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right', fontsize=8)
 
 plt.tight_layout()
-plt.savefig('plots/distribution_overlap_heatmap.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/distribution_overlap_heatmap.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -685,7 +685,7 @@ for row_idx, obs in enumerate(key_obs_comparison):
         ax_ratio.grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('plots/side_by_side_comparison.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/side_by_side_comparison.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -739,7 +739,7 @@ for idx, bsm in enumerate(BSM_NAMES):
     ax.grid(True, alpha=0.3, axis='y')
 
 plt.tight_layout()
-plt.savefig('plots/bsm_deviation_higgs_vs_nonhiggs.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/exploratory/bsm_deviation_higgs_vs_nonhiggs.png', dpi=150, bbox_inches='tight')
 plt.close()
 
 
@@ -750,7 +750,7 @@ print("\n" + "=" * 60)
 print("All plots generated successfully!")
 print("=" * 60)
 
-plot_files = sorted([f for f in os.listdir('plots') if f.endswith('.png')])
-print(f"\nGenerated {len(plot_files)} plots in 'plots/' folder:")
+plot_files = sorted([f for f in os.listdir('figures/exploratory') if f.endswith('.png')])
+print(f"\nGenerated {len(plot_files)} plots in 'figures/exploratory/' folder:")
 for f in plot_files:
     print(f"  - {f}")

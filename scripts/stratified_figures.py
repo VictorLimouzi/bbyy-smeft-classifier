@@ -5,8 +5,8 @@ Thesis §3.3.2 style figures: compare the most important NN inputs under
 event-type fractions (ZH, HH, Single H, Other).
 
 Default: all six DNN BSM datasets (cbbim, cbgim, cbhim, chbtil, chgtil, ctbim). Per operator:
-  - figures/stratified_sampling_event_fractions_{bsm}.png
-  - figures/stratified_sampling_top_features_{bsm}.png
+  - figures/publication/stratified_sampling_event_fractions_{bsm}.png
+  - figures/publication/stratified_sampling_top_features_{bsm}.png
 Use --bsm <name> to generate only one.
 
 Requires: datasets/*.h5 and metrics/nn_feature_importance.csv with ≥ --n-features rows per operator
@@ -298,7 +298,7 @@ def main():
         print(f"Note: {args.bsm!r} is not in the standard six; still requiring HDF5 and CSV rows.")
 
     sm_df = load_dataset(sm_path)
-    fig_dir = ROOT / "figures"
+    fig_dir = ROOT / "figures" / "publication"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     for bsm in operators:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate publication-quality visualizations of the GNN input graph structure.
-Output: figures/gnn_input_graph.png and .pdf
+Output: figures/publication/gnn_input_graph.png and .pdf
 
 Uses only matplotlib + networkx (no pyvis). Optimized for paper figures.
 """
@@ -24,7 +24,7 @@ plt.rcParams.update({
     'axes.linewidth': 1.2,
     'figure.dpi': 150,
 })
-os.makedirs('figures', exist_ok=True)
+os.makedirs('figures/publication', exist_ok=True)
 
 
 def get_physics_layout():
@@ -105,9 +105,9 @@ def draw_gnn_graph(style='physics', edge_alpha=0.25, save=True):
     plt.tight_layout()
     
     if save:
-        plt.savefig('figures/gnn_input_graph.png', dpi=300, bbox_inches='tight')
-        plt.savefig('figures/gnn_input_graph.pdf', bbox_inches='tight')
-        print("Saved figures/gnn_input_graph.png and .pdf")
+        plt.savefig('figures/publication/gnn_input_graph.png', dpi=300, bbox_inches='tight')
+        plt.savefig('figures/publication/gnn_input_graph.pdf', bbox_inches='tight')
+        print("Saved figures/publication/gnn_input_graph.png and .pdf")
     plt.close()
 
 
@@ -144,10 +144,10 @@ def draw_gnn_graph_minimal():
     
     ax.set_title('Event Graph (Simplified Topology)', fontsize=12, fontweight='bold')
     plt.tight_layout()
-    plt.savefig('figures/gnn_input_graph_minimal.png', dpi=300, bbox_inches='tight')
-    plt.savefig('figures/gnn_input_graph_minimal.pdf', bbox_inches='tight')
+    plt.savefig('figures/publication/gnn_input_graph_minimal.png', dpi=300, bbox_inches='tight')
+    plt.savefig('figures/publication/gnn_input_graph_minimal.pdf', bbox_inches='tight')
     plt.close()
-    print("Saved figures/gnn_input_graph_minimal.png and .pdf")
+    print("Saved figures/publication/gnn_input_graph_minimal.png and .pdf")
 
 
 def draw_gnn_with_feature_table():
@@ -197,10 +197,10 @@ def draw_gnn_with_feature_table():
     
     plt.suptitle('GNN Input Representation', fontsize=14, fontweight='bold', y=1.02)
     plt.tight_layout()
-    plt.savefig('figures/gnn_input_graph_with_features.png', dpi=300, bbox_inches='tight')
-    plt.savefig('figures/gnn_input_graph_with_features.pdf', bbox_inches='tight')
+    plt.savefig('figures/publication/gnn_input_graph_with_features.png', dpi=300, bbox_inches='tight')
+    plt.savefig('figures/publication/gnn_input_graph_with_features.pdf', bbox_inches='tight')
     plt.close()
-    print("Saved figures/gnn_input_graph_with_features.png and .pdf")
+    print("Saved figures/publication/gnn_input_graph_with_features.png and .pdf")
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate architecture diagrams for DNN, GCN, and GAT models using torchviz.
-Output: figures/dnn_architecture.*, figures/gcn_architecture.*, figures/gat_architecture.*
+Output: figures/publication/dnn_architecture.*, figures/publication/gcn_architecture.*, figures/publication/gat_architecture.*
 Requires: torchviz, graphviz (brew install graphviz)
 """
 
@@ -23,7 +23,7 @@ if sys.platform == 'darwin':
 
 from torchviz import make_dot
 
-os.makedirs('figures', exist_ok=True)
+os.makedirs('figures/publication', exist_ok=True)
 
 # Optional: GNN models (skip if torch_geometric not installed)
 try:
@@ -153,9 +153,9 @@ def make_gcn_diagram():
     data = make_gnn_dummy_data()
     y = model(data)
     dot = make_dot(y, params=dict(model.named_parameters()), show_attrs=True, show_saved=True)
-    dot.render('figures/gcn_architecture', format='png', cleanup=True)
-    dot.render('figures/gcn_architecture', format='pdf', cleanup=True)
-    print("Saved figures/gcn_architecture.png and .pdf")
+    dot.render('figures/publication/gcn_architecture', format='png', cleanup=True)
+    dot.render('figures/publication/gcn_architecture', format='pdf', cleanup=True)
+    print("Saved figures/publication/gcn_architecture.png and .pdf")
 
 
 def make_gat_diagram():
@@ -168,9 +168,9 @@ def make_gat_diagram():
     data = make_gnn_dummy_data()
     y = model(data)
     dot = make_dot(y, params=dict(model.named_parameters()), show_attrs=True, show_saved=True)
-    dot.render('figures/gat_architecture', format='png', cleanup=True)
-    dot.render('figures/gat_architecture', format='pdf', cleanup=True)
-    print("Saved figures/gat_architecture.png and .pdf")
+    dot.render('figures/publication/gat_architecture', format='png', cleanup=True)
+    dot.render('figures/publication/gat_architecture', format='pdf', cleanup=True)
+    print("Saved figures/publication/gat_architecture.png and .pdf")
 
 
 if __name__ == '__main__':
@@ -180,7 +180,7 @@ if __name__ == '__main__':
         if HAS_TORCH_GEOMETRIC:
             make_gcn_diagram()
             make_gat_diagram()
-        print("\nDone. Diagrams in figures/")
+        print("\nDone. Diagrams in figures/publication/")
     except Exception as e:
         if 'dot' in str(e).lower() or 'graphviz' in str(e).lower():
             print("Error: graphviz 'dot' not found. Install with: brew install graphviz", file=sys.stderr)
