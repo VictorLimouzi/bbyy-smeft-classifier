@@ -217,11 +217,3 @@ seniour_honours_project/
 ## Acknowledgements
 
 Senior Honours project. Thanks to my advisor Dominik for guidance and support.
-
----
-
-## Contact
-
-**Victor Limouzi** · March 2026  
-
-*Thesis title: Machine Learning Classification of CP-Odd SMEFT Operators in $b\bar{b}\gamma\gamma$ Production at the HL-LHC*
